@@ -16,24 +16,20 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'public/lib/angular/angular.js',
-            'public/lib/angular-mocks/angular-mocks.js',
-            'public/lib/angular-cookies/angular-cookies.js',
-            'public/lib/angular-resource/angular-resource.js',
-            'public/lib/angular-ui-router/release/angular-ui-router.js',
-            'public/lib/angular-bootstrap/ui-bootstrap-tpls.js',
-            'public/lib/angular-bootstrap/ui-bootstrap.js',
-            'public/js/app.js',
-            'public/js/config.js',
-            'public/js/directives.js',
-            'public/js/filters.js',
-            'public/js/services/global.js',
-            'public/js/services/articles.js',
-            'public/js/controllers/articles.js',
-            'public/js/controllers/index.js',
-            'public/js/controllers/header.js',
-            'public/js/init.js',
-            'test/karma/unit/**/*.js'
+            'public/system/lib/angular/angular.js',
+            'public/system/lib/angular-mocks/angular-mocks.js',
+            'public/system/lib/angular-cookies/angular-cookies.js',
+            'public/system/lib/angular-resource/angular-resource.js',
+            'public/system/lib/angular-ui-router/release/angular-ui-router.js',
+            'public/system/lib/angular-bootstrap/ui-bootstrap-tpls.js',
+            'public/system/lib/angular-bootstrap/ui-bootstrap.js',
+            'public/*/*.js',
+            'public/{auth,articles}/*/*.js',
+            'public/system/{controllers,routes,services}/*.js',
+            'public/init.js',
+            'test/karma/unit/**/*.js',
+            'packages/*/public/**/*.js',
+            'packages/*/test/karma/**/*.js'
         ],
 
 
@@ -54,7 +50,9 @@ module.exports = function(config) {
             // do not include tests or libraries
             // (these files will be instrumented by Istanbul)
             'public/js/controllers/*.js': ['coverage'],
-            'public/js/services/*.js': ['coverage']
+            'public/js/services/*.js': ['coverage'],
+            'packages/*/public/*/controllers/*.js': ['coverage'],
+            'packages/*/public/*/services/*.js': ['coverage']
         },
 
         coverageReporter: {
