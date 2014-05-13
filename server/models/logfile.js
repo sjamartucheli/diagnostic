@@ -23,8 +23,14 @@ var LogFileSchema = new Schema({
         default: Date.now
     },
     machineid: {
-        type: Number,
-        default: 0
+        type: String
+    },
+    namelogfile: {
+        type: String
+    },
+    file: {
+        type: String,
+        bin: Buffer
     }
 });
 
