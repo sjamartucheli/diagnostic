@@ -14,7 +14,7 @@ exports.test = function(req, res) {
        // Stream file here
         //var saveTo = fs.createWriteStream(path.join(os.tmpDir(), path.basename(filename)));
         var now = new Date();
-        var saveTo2 = fs.createWriteStream(path.join('../../upload/', path.basename(now.getTime().toString(36)) + '.txt'));
+        var saveTo2 = fs.createWriteStream(path.join('../upload/', path.basename(now.getTime().toString(36)) + '.txt'));
         file.pipe(saveTo2);
     });
 
