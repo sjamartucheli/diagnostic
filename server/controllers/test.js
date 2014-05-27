@@ -1,29 +1,42 @@
 'use strict';
 
-var Busboy = require('busboy');
-var path = require('path');
-//var os = require('os');
-var fs = require('fs');
-// var Grid = require("gridfs-stream");
-// var gfs = new Grid(db, mongo);
+var Busboy = require('busboy'),
+    path = require('path'),
+    fs = require('fs'),
+    mongoose = require('mongoose'),
+    LogFile = mongoose.model('LogFile'),
+    Machine = mongoose.model('Machine');
+    // Grid = require("gridfs-stream"),
+    // gfs = new Grid(db, mongo);
 
 exports.test = function(req, res) {
     var busboy = new Busboy({ headers: req.headers });
+    var logfile = new LogFile();
 
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-       // Stream file here
-        //var saveTo = fs.createWriteStream(path.join(os.tmpDir(), path.basename(filename)));
-        var now = new Date();
-        var saveTo2 = fs.createWriteStream(path.join('../upload/', path.basename(now.getTime().toString(36)) + '.txt'));
-        file.pipe(saveTo2);
+        var now = new Date(),
+            fullpath = path.join('../upload/', path.basename(now.getTime().toString(36))),
+            saveTo = fs.createWriteStream(fullpath);
+        logfile.path = fullpath;
+        file.pipe(saveTo);
     });
 
     busboy.on('field', function(name, value){  
-        // Recebemos um campo *O*
-        console.log('Recebemos o campo %s com o valor %s', name, value);
+        logfile[name] = value;
     });
 
     busboy.on('finish', function() {
+        // Store on database
+        logfile.save(function(err) {
+            if (err) {
+                return res.send('users/signup', {
+                    errors: err.errors,
+                    logfile: logfile
+                });
+            } else {
+                res.jsonp(logfile);
+            }
+        });
         res.send('success');
     });
 

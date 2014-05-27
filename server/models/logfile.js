@@ -1,22 +1,8 @@
 'use strict';
 
-/**
- * Module dependencies.
- */
-var path = require('path');
 var mongoose = require('mongoose'),
-    filePluginLib = require('mongoose-file'),
-    filePlugin = filePluginLib.filePlugin,
-    make_upload_to_model = filePluginLib.make_upload_to_model,
     Schema = mongoose.Schema;
 
-var uploads_base = path.join(__dirname, 'uploads');
-var uploads = path.join(uploads_base, 'u');
-
-
-/**
- * Article Schema
- */
 var LogFileSchema = new Schema({
     created: {
         type: Date,
@@ -25,19 +11,9 @@ var LogFileSchema = new Schema({
     machineid: {
         type: String
     },
-    namelogfile: {
+    path: {
         type: String
-    },
-    file: {
-        type: String,
-        bin: Buffer
     }
-});
-
-LogFileSchema.plugin(filePlugin, {
-    name: 'FileUpload',
-    upload_to: make_upload_to_model(uploads, 'FileUploads'),
-    relative_to: uploads_base
 });
 
 LogFileSchema.statics.load = function(id, cb) {

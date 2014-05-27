@@ -11,10 +11,10 @@ process.env.NODE_ENV = ~fs.readdirSync('./server/config/env').map(function(file)
 }).indexOf(process.env.NODE_ENV) ? process.env.NODE_ENV : 'development';
 
 // Create a folder to upload files if it does not exist
-var uploadFolder = '../../upload';
-fs.existsSync(uploadFolder, function(exists) {
+var uploadFolder = '../upload';
+fs.exists(uploadFolder, function(exists) {
     if (!exists) {
-        fs.mkdirSync(uploadFolder);
+        fs.mkdir(uploadFolder);
     }
 });
 
