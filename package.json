@@ -101,6 +101,7 @@
     "karma-phantomjs-launcher": "~0.1.4",
     "karma-requirejs": "~0.2.1",
     "karma-script-launcher": "~0.1.0",
+    "lazy": "^1.0.11",
     "mongoose-file": "0.0.2",
     "requirejs": "~2.1.11",
     "should": "3.3.1",
