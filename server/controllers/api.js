@@ -98,9 +98,10 @@ exports.upload = function(req, res) {
                     errors: err.errors,
                     logfile: logfile
                 });
-            } else {
-                res.jsonp(logfile);
             }
+            // else {
+            //     res.jsonp(logfile);
+            // }
         });
         processFile(logfile.path, logfile.machineid); // Verificar se consome muito tempo
         res.send('success');
