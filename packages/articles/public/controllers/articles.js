@@ -3,7 +3,8 @@
 angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'Articles',
   function($scope, $stateParams, $location, Global, Articles) {
     $scope.global = Global;
-
+    // Complying to
+    var vm = this;
     $scope.hasAuthorization = function(article) {
       if (!article || !article.user) return false;
       return $scope.global.isAdmin || article.user._id === $scope.global.user._id;
@@ -28,13 +29,14 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
 
     $scope.remove = function(article) {
       if (article) {
-        article.$remove();
-
-        for (var i in $scope.articles) {
-          if ($scope.articles[i] === article) {
-            $scope.articles.splice(i, 1);
+        article.$remove(function(response) {
+          for (var i in $scope.articles) {
+            if (vm.articles[i] === article) {
+              vm.articles.splice(i, 1);
+            }
           }
-        }
+          $location.path('articles');
+        });
       } else {
         $scope.article.$remove(function(response) {
           $location.path('articles');
@@ -44,7 +46,7 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
 
     $scope.update = function(isValid) {
       if (isValid) {
-        var article = $scope.article;
+        var article = vm.article;
         if (!article.updated) {
           article.updated = [];
         }
@@ -60,7 +62,8 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
 
     $scope.find = function() {
       Articles.query(function(articles) {
-        $scope.articles = articles;
+        //$scope.articles = articles;
+        vm.articles = articles;
       });
     };
 
@@ -68,7 +71,7 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
       Articles.get({
         articleId: $stateParams.articleId
       }, function(article) {
-        $scope.article = article;
+        vm.article = article;
       });
     };
   }
