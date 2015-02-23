@@ -16,7 +16,7 @@ var MachineSchema = new Schema({
         default: Date.now
     },
     machineid: {
-        type: Number,
+        type: String,
         unique: true,
         default: 0
     }

@@ -6,8 +6,8 @@ var Busboy = require('busboy'),
     Lazy = require('lazy'),
     mongoose = require('mongoose'),
     LogFile = mongoose.model('LogFile'),
-    HashFile = mongoose.model('HashFile');
-    // Machine = mongoose.model('Machine');
+    HashFile = mongoose.model('HashFile'),
+    Machine = mongoose.model('Machine');
     // Grid = require("gridfs-stream"),
     // gfs = new Grid(db, mongo);
 
@@ -77,6 +77,7 @@ var processFile = function(filename, machineid) {
 exports.upload = function(req, res) {
     var busboy = new Busboy({ headers: req.headers });
     var logfile = new LogFile();
+    var machine = new Machine();
 
     busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
         var now = new Date(),
@@ -88,6 +89,7 @@ exports.upload = function(req, res) {
 
     busboy.on('field', function(name, value){  
         logfile[name] = value;
+        machine[name] = value;
     });
 
     busboy.on('finish', function() {
@@ -102,6 +104,13 @@ exports.upload = function(req, res) {
             // else {
             //     res.jsonp(logfile);
             // }
+        });
+        machine.save(function(err) {
+            if (err) {
+                return console.log('Error: ' + err.errors);
+            } else {
+                console.log(machine);
+            }
         });
         processFile(logfile.path, logfile.machineid); // Verificar se consome muito tempo
         res.send('success');
