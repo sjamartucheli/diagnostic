@@ -3,7 +3,7 @@
 
     {
       name      : "Diagnostic",
-      script    : "/var/www/teste/diagnostic/server.js",
+      script    : "server.js",
       env: {
         COMMON_VARIABLE: "true"
       },
